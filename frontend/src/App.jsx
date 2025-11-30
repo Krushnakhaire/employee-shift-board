@@ -24,7 +24,7 @@ const App = () => {
 
   const showError = useCallback((msg) => {
     setError(msg);
-    setTimeout(() => setError(''), 4000);
+    setTimeout(() => setError(''), 3000);
   }, []);
 
   const loadShifts = useCallback(async () => {
@@ -69,12 +69,13 @@ const App = () => {
   };
 
   if (!auth) {
-    
     return (
-      <div className="page">
-        <div className="card">
-          <h2>Employee Shift Board</h2>
-          <p>Login as admin or normal user.</p>
+      <div className="login-wrapper">
+        <div className="card login-card">
+          <h1 className="login-title">Employee Shift Board</h1>
+          <p className="login-subtitle">
+            Sign in with an admin or normal user account to manage and view employee shifts.
+          </p>
 
           {error && <div className="error">{error}</div>}
 
@@ -99,14 +100,10 @@ const App = () => {
               />
             </label>
 
-            <button type="submit">Login</button>
+            <button type="submit" style={{ marginTop: '0.75rem' }}>
+              Login
+            </button>
           </form>
-
-          <p style={{ fontSize: '0.85rem', marginTop: '1rem' }}>
-            Demo accounts:<br />
-            Admin: hire-me@anshumat.org / HireMe@2025!<br />
-            User: user@example.com / User@1234
-          </p>
         </div>
       </div>
     );
@@ -119,12 +116,12 @@ const App = () => {
   };
 
   return (
-    <div className="page">
+    <div className="page dashboard-shell">
       <header className="topbar">
-        <div>
+        <div className="topbar-left">
           <h2>Employee Shift Board</h2>
-          <p style={{ fontSize: '0.85rem', color: '#555' }}>
-            Logged in as {user.name} ({user.role})
+          <p>
+            Logged in as <strong>{user.name}</strong> ({user.role})
           </p>
         </div>
         <button onClick={handleLogout}>Logout</button>
@@ -132,18 +129,20 @@ const App = () => {
 
       {error && <div className="error">{error}</div>}
 
-      <div className="card">
+      <div className="card filter-card">
         <label>
-          Date filter
+          Date Filter
           <input
             type="date"
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
           />
         </label>
-        <button onClick={loadShifts} disabled={loadingShifts}>
-          {loadingShifts ? 'Loading...' : 'Refresh'}
-        </button>
+        <div className="filter-actions">
+          <button onClick={loadShifts} disabled={loadingShifts}>
+            {loadingShifts ? 'Loading...' : 'Refresh'}
+          </button>
+        </div>
       </div>
 
       <div className="layout">
